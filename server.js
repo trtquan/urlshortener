@@ -12,7 +12,7 @@ var app = express();
 var port = process.env.PORT || 3000;
 
 /** this project needs a db !! **/ 
-// mongoose.connect(process.env.DB_URI);
+mongoose.connect(process.env.DB_URI);
 
 app.use(cors());
 
@@ -31,6 +31,10 @@ app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
+
+app.post('/api/shorturl/new/', (req, res) => {
+
+})
 
 app.listen(port, function () {
   console.log('Node.js listening ...');
