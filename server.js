@@ -13,7 +13,7 @@ var app = express();
 var port = process.env.PORT || 3000;
 
 /** this project needs a db !! **/ 
-mongoose.connect(process.env.DB_URI);
+mongoose.connect(process.env.DB_URI, {useNewUrlParser: true});
 
 app.use(cors());
 
