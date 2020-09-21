@@ -46,7 +46,8 @@ app.get("/api/hello", function (req, res) {
 
 const ShortURLSchema = mongoose.model('ShortURL', new Schema({
   short_url: String,
-  original_url: String
+  original_url: String,
+  suffix: String,
 })
 )
 app.post('/api/shorturl/new/', urlencodedParser, function (req, res) {
