@@ -69,10 +69,10 @@ app.post('/api/shorturl/new/', urlencodedParser, function (req, res) {
 
 app.get("/api/shorturl/:suffix", (req, res) => {
   const userShortLink = req.params.suffix;
-  const userRequest = ShortURLSchema.findOne({suffix: userShortLink},(err, shortURL) => {
+  ShortURLSchema.findOne({suffix: userShortLink},(err, shortURL) => {
     if(err) return console.log(err);
-    console.log(userShortLink.original_url, "<= original_url");
-    res.redirect(userShortLink.original_url);
+    console.log(shortURL.original_url, "<= original_url");
+    res.redirect(shortURL.original_url);
   })
 })
 
