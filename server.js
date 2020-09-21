@@ -53,8 +53,9 @@ app.post('/api/shorturl/new/', urlencodedParser, function (req, res) {
   const clientReq = req.body.url;
   const suffix = shortid.generate()
   const newURL = new ShortURLSchema({
-    "short_url": __dirname + "/api/shorturl/" + shortid.generate(),
-    "original_url": req.body.url
+    "short_url": __dirname + "/api/shorturl/" + suffix,
+    "original_url": req.body.url,
+    "suffix": suffix
   }) ;
 
  newURL.save((err, newURL) => {
@@ -65,6 +66,15 @@ app.post('/api/shorturl/new/', urlencodedParser, function (req, res) {
    });
  });
 });
+
+app.get("/api/shorturl/:suffix", (req, res) => {
+  const userShortLink = req.params.suffix;
+  const userRequest = ShortURLSchema.findOne({suffix: userShortLink},(err, shortURL) => {
+    if(err) return console.log(err);
+    console.log(userShortLink.original_url, "<= original_url");
+    res.redirect(userShortLink.original_url);
+  })
+})
 
 app.listen(port, function () {
   console.log('Node.js listening ...');
