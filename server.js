@@ -12,16 +12,19 @@ var app = express();
 // create application/json parser
 var jsonParser = bodyParser.json()
 app.use(bodyParser.json({ type: 'application/*+json' }))
-
+var shortid = require('shortid')
 // create application/x-www-form-urlencoded parser
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 // Basic Configuration 
 var port = process.env.PORT || 3000;
 
 /** this project needs a db !! **/ 
-mongoose.connect(process.env.DB_URI, {useNewUrlParser: true});
+mongoose.connect(process.env.DB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology:true
+});
 
-app.use(cors());
+app.use(cors({optionsSuccessStatus: true}));
 
 /** this project needs to parse POST bodies **/
 // you should mount the body-parser here
@@ -40,10 +43,11 @@ app.get("/api/hello", function (req, res) {
 
 app.post('/api/shorturl/new/', urlencodedParser, function (req, res) {
   res.json({
-    "short_url": "short",
+    "short_url": shortid.generate(),
     "original_url": req.body.url
-  })
+  });
 })
+
 app.listen(port, function () {
   console.log('Node.js listening ...');
 });
