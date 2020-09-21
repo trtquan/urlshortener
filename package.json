@@ -8,11 +8,12 @@
 		"start": "node server.js"
 	},
 	"dependencies": {
+		"body-parser": "^1.19.0",
+		"cors": "^2.8.5",
 		"express": "^4.17.1",
 		"mongodb": "^3.5.9",
 		"mongoose": "^5.9.27",
-		"cors": "^2.8.5",
-		"body-parser": "^1.19.0"
+		"shortid": "^2.2.15"
 	},
 	"engines": {
 		"node": "12.18.3"

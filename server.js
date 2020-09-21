@@ -39,7 +39,10 @@ app.get("/api/hello", function (req, res) {
 });
 
 app.post('/api/shorturl/new/', urlencodedParser, function (req, res) {
-  res.send('welcome, ' + req.body.username)
+  res.json({
+    "short_url": "short",
+    "original_url": req.body.url
+  })
 })
 app.listen(port, function () {
   console.log('Node.js listening ...');
