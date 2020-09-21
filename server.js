@@ -3,6 +3,7 @@
 var express = require('express');
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
+const {Schema, Model} = mongoose;
 var bodyParser = require('body-parser')
 
 var cors = require('cors');
@@ -24,6 +25,8 @@ mongoose.connect(process.env.DB_URI, {
   useUnifiedTopology:true
 });
 
+
+
 app.use(cors({optionsSuccessStatus: true}));
 
 /** this project needs to parse POST bodies **/
@@ -41,12 +44,27 @@ app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
-app.post('/api/shorturl/new/', urlencodedParser, function (req, res) {
-  res.json({
-    "short_url": shortid.generate(),
-    "original_url": req.body.url
-  });
+const ShortURLSchema = mongoose.model('ShortURL', new Schema({
+  short_url: String,
+  original_url: String
 })
+)
+app.post('/api/shorturl/new/', urlencodedParser, function (req, res) {
+  const clientReq = req.body.url;
+  const suffix = shortid.generate()
+  const newURL = new ShortURLSchema({
+    "short_url": __dirname + "/api/shorturl/" + shortid.generate(),
+    "original_url": req.body.url
+  }) ;
+
+ newURL.save((err, newURL) => {
+   if (err) return console.log(err);
+   res.json ({
+    "short_url": newURL.short_url,
+    "original_url": newURL.original_url
+   });
+ });
+});
 
 app.listen(port, function () {
   console.log('Node.js listening ...');
