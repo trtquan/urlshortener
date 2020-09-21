@@ -9,6 +9,12 @@ var cors = require('cors');
 
 var app = express();
 
+// create application/json parser
+var jsonParser = bodyParser.json()
+app.use(bodyParser.json({ type: 'application/*+json' }))
+
+// create application/x-www-form-urlencoded parser
+var urlencodedParser = bodyParser.urlencoded({ extended: false })
 // Basic Configuration 
 var port = process.env.PORT || 3000;
 
@@ -19,7 +25,6 @@ app.use(cors());
 
 /** this project needs to parse POST bodies **/
 // you should mount the body-parser here
-var jsonParser = bodyParser.json()
 
 app.use('/public', express.static(process.cwd() + '/public'));
 
